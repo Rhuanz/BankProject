@@ -25,11 +25,13 @@ while (True):
 
     if ope == 1:
 
-        if extrato == []: print("Não constam movimentações")
+        if not extrato: print("Não constam movimentações")
 
         else:
             print("\nSeu extrato:\n")
             for d, h, v, op in extrato: print(f"{d}, {h}, {op} no valor de: R$ {v:.2f}")
+            print(f"\nSaldo atual: R$ {saldo:.2f}")
+            tm.sleep(5)
 
 
     elif ope == 2:
