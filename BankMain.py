@@ -50,23 +50,26 @@ def depositar(saldo_conta, valor_depositado, /):
         print(f"Operação concluída com sucesso!\nSaldo atual: R$ {saldo_conta}")
         return saldo_conta, [dia, hora, valor_depositado, "deposito"]
         
-def exibir_extrato(historico, saldo_conta):
+def exibir_extrato(saldo_conta, /, *, historico):
     
-    print("\nSeu extrato:\n")
+    if not historico: print("Não constam movimentações")
     
-    for d, h, v, op in historico: 
-        print(f"{d}, {h}, {op} no valor de: R$ {v:.2f}")
+    else:
+        print("\nSeu extrato:\n")
+        
+        for d, h, v, op in historico: 
+            print(f"{d}, {h}, {op} no valor de: R$ {v:.2f}")
+        
+        print(f"\nSaldo atual: R$ {saldo_conta:.2f}")
+        
+        tm.sleep(5)
     
-    print(f"\nSaldo atual: R$ {saldo_conta:.2f}")
-    
-    tm.sleep(5)
-    
-def gerar_conta():
+def gerar_conta(ag):
     
     numero_conta = randint(10000, 99999)
     digito_conta = randint(0, 9)
             
-    return f"{numero_conta}-{digito_conta}"
+    return f"{ag} {numero_conta}-{digito_conta}"
     
 def listar_contas(lista_contas):
     for cliente, numero_conta in lista_contas:
@@ -89,9 +92,7 @@ def main():
 
         if ope == '1':
 
-            if not extrato: print("Não constam movimentações")
-
-            else: exibir_extrato(extrato, saldo)
+            exibir_extrato(saldo, historico=extrato)
                 
                 
         elif ope == '2': print(f"Seu saldo em {dia}:\nR$ {saldo:.2f}")
@@ -122,7 +123,7 @@ def main():
             
             new_user = input("Digite seu nome:\n")
             
-            contas.append([new_user, gerar_conta()])
+            contas.append([new_user, gerar_conta(AGENCIA)])
             
         elif ope == '6':
             
