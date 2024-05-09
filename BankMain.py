@@ -11,9 +11,10 @@ def menu():
     [2] Saldo
     [3] Deposito
     [4] Saque
-    [5] Nova conta
-    [6] Listar contas
-    [7] Sair
+    [5] Cadastro cliente
+    [6] Criar conta
+    [7] Listar contas
+    [8] Sair
 
     """)
     
@@ -64,17 +65,49 @@ def exibir_extrato(saldo_conta, /, *, historico):
         
         tm.sleep(5)
     
-def gerar_conta(ag):
+def cadastro_cliente(user, cpf_user, clientes):
     
-    numero_conta = randint(10000, 99999)
-    digito_conta = randint(0, 9)
+    if not cpf_user in [i['cpf'] for i in clientes]:
+        print("Novo usuário cadastrado com sucesso")
+        return {"nome": user, "cpf": cpf_user, "conta": None}
+    else:
+        print("Operação falhou! O CPF já possui cadastro.")
+        return None
+    
+def criar_conta(lista_clientes,cpf_cliente, lista_contas, ag):
+
+    if not cpf_cliente in [i["cpf"] for i in lista_clientes]:
+        print("Operação falhou! O usuário não está cadastrado na base de dados")
+        return None, None
+    
+    else:
+
+        for cliente in lista_clientes:
+
+            if cliente["cpf"] == cpf_cliente and not cliente["conta"]:
+                
+                nova_conta = len(lista_contas) + 1
+                digito_conta = randint(0,9)
+
+                cliente["conta"] = f"{ag} {nova_conta}-{digito_conta}"
+
+                lista_contas.append([cliente["nome"],cliente["cpf"], cliente["conta"]])
+
+                print("Conta criada com sucesso")
+                print(f"Nome: {cliente['nome']}, CPF: {cliente['cpf']}, Conta: {cliente['conta']}")
+                return lista_contas, lista_clientes
             
-    return f"{ag} {numero_conta}-{digito_conta}"
-    
-def listar_contas(lista_contas):
-    for cliente, numero_conta in lista_contas:
-        print(f"Cliente: {cliente}, conta: {numero_conta}")
+        print("Cliente já possui conta vinculada")
+        return None, None
         
+def listar_contas(lista_contas):
+
+    if not lista_contas:
+        print("Operação falhou! Não existem contas cadastradas")
+    else:
+        for conta in lista_contas:
+            print(f"Cliente: {conta[0]}, Conta: {conta[2]}")
+
 def main():
     
     AGENCIA = "001"
@@ -84,6 +117,7 @@ def main():
     saldo = 0
     saques_efetuados = 0
     limiteSaque = 500
+    clientes = []
     contas = []
 
     while (True):
@@ -121,15 +155,25 @@ def main():
                 
         elif ope == '5':
             
-            new_user = input("Digite seu nome:\n")
-            
-            contas.append([new_user, gerar_conta(AGENCIA)])
+            new_user_name = input("Digite seu nome:\n")
+            new_user_cpf = input("Digite seu cpf:\n")
+
+            cadastro_novo_user = cadastro_cliente(new_user_name, new_user_cpf, clientes)
+            if cadastro_novo_user:
+                clientes.append(cadastro_novo_user)
             
         elif ope == '6':
             
-            listar_contas(contas)
+            user_cpf = input("Digite o cpf do cliente que deseja criar conta:\n")
+            nova_lista_conta, nova_lista_clientes = criar_conta(clientes, user_cpf, contas, AGENCIA)
+            if nova_lista_conta and nova_lista_clientes:
+                contas = nova_lista_conta
+                clientes = nova_lista_clientes
             
         elif ope == '7':
+            listar_contas(contas)
+
+        elif ope == '8':
             break
 
         else:
