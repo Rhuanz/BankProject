@@ -21,7 +21,7 @@ class Saque(Transacao):
         conta.historico.adicionar_transacao(self)
 
     def __str__(self):
-        return f"{self.__class__.__name__} - Valor: {self.valor} - Data: {self.data}"
+        return f"{self.__class__.__name__} - Valor: R$ {self.valor:.2f} - Data: {self.data}"
 
 class Deposito(Transacao):
 
@@ -33,7 +33,7 @@ class Deposito(Transacao):
         conta.historico.adicionar_transacao(self)
 
     def __str__(self):
-        return f"{self.__class__.__name__} - Valor: {self.valor} - Data: {self.data}"
+        return f"{self.__class__.__name__} - Valor: R$ {self.valor:.2f} - Data: {self.data}"
 
 class Historico:
     def __init__(self) -> None:
@@ -42,5 +42,5 @@ class Historico:
     def adicionar_transacao(self, transacao: Transacao):
         self.historico.append(transacao)
 
-    def exibe_extrato(self):
+    def exibir_extrato(self):
         for i in self.historico: print(i)
