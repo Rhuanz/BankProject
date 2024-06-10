@@ -43,7 +43,7 @@ class Conta_Corrente(Conta):
         return cls(cliente)
     
     def __str__(self):
-        return f"Conta Corrente - AG: {self.ag}, Número: {self.numero}"
+        return f"Conta Corrente - Número: {self.numero}, AG: {self.ag}"
 
 
 class Conta_Poupanca(Conta):

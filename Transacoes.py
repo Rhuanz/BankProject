@@ -43,4 +43,7 @@ class Historico:
         self.historico.append(transacao)
 
     def exibir_extrato(self):
-        for i in self.historico: print(i)
+        if self.historico:
+            for i in self.historico: print(i)
+        else:
+            print("Não existe histórico de transações para essa conta")
