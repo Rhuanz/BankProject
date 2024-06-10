@@ -12,7 +12,7 @@ class Conta:
         self.historico = Transacoes.Historico()
 
     def exibir_saldo(self):
-        print(self.saldo)
+        print(f"Saldo atual: R$ {self.saldo:.2f}")
 
     def sacar(self, valor: float):
         if valor > self.saldo: return False

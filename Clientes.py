@@ -49,8 +49,8 @@ class Cliente:
         if not self.contas:
             print("Operação falhou! Não existem contas cadastradas")
         else:
-            for conta in self.contas:
-                print(conta)
+            for i in range(0, len(self.contas)):
+                print(f"'{i}': {self.contas[i]}")
     
 class Pessoa_fisica(Cliente):
     

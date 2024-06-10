@@ -51,26 +51,46 @@ class Main:
                 escolha = int(input(Main.Menu()))
                 
                 if escolha == 1: #Realizar operação
-                    if cliente.contas:
+                    
+                    if cliente.contas: 
+                       
+                       
+                        #Criar sistema de verificação da conta selecionada
+                        
+                        
                         operacao = int(input(Main.MenuOperacao()))
                         
                         if operacao == 1: #Extrato
                             print("Selecione a conta que deseja conferir o extrato:")
-                            for i in range(0, len(cliente.contas)):
-                                print(f"Digite '{i}' para: {cliente.contas[i]}")
+                            cliente.listar_contas()
                             conta_extrato = int(input("Conta selecionada: "))
                             cliente.contas[conta_extrato].historico.exibir_extrato()
                         
-                        if operacao == 2: #Saldo
-                            pass
-                        if operacao == 3: #Deposito
-                            pass
-                        if operacao == 4: #Saque
-                            pass
+                        elif operacao == 2: #Saldo
+                            print("Selecione a conta que deseja conferir o saldo:")
+                            cliente.listar_contas()
+                            conta_saldo = int(input("Conta selecionada: "))
+                            cliente.contas[conta_saldo].exibir_saldo() 
+                             
+                        
+                        elif operacao == 3: #Deposito
+                            
+                            print("Selecione a conta que deseja realizar depósito:")
+                            cliente.listar_contas()
+                            conta_deposito = int(input("Conta selecionada: "))
+                            valor = int(input("Digite o valor a ser depositado: "))
+                            cliente.realizar_transacao(cliente.contas[conta_deposito], Transacoes.Deposito(valor))
+                            
+                        elif operacao == 4: #Saque
+                            print("Selecione a conta que deseja realizar o saque:")
+                            cliente.listar_contas()
+                            conta_saque = int(input("Conta selecionada: "))
+                            valor = int(input("Digite o valor a ser sacado: "))
+                            cliente.realizar_transacao(cliente.contas[conta_saque], Transacoes.Saque(valor))
                         else:
                             print("Número de operação inválido! Tente novamente")
                     else:
-                        print("Não existem contas para realizar operação")
+                        print("Não existem contas para realizar operação!")
 
                 elif escolha == 2: #Abrir conta
                     
@@ -88,7 +108,7 @@ class Main:
                         print("Opção inválida! Tente novamente.")
                         
                 elif escolha == 3: #Listar contas
-                    pass
+                    cliente.listar_contas()
                 elif escolha == 4: #Sair
                     print("Encerrando o sistema...")
                     break
@@ -99,32 +119,3 @@ class Main:
             print("Encerrando o sistema...")
             
 Main.Main()
-""" ------- testes--------
-
-t_c = Clientes.Pessoa_fisica(cpf= 123, nome="Rhuan", endereco= 'pipoca')
-
-t_c.listar_contas()
-
-t_c.adicionar_conta(Contas.Conta_Poupanca.nova_conta(t_c))
-
-t_c.adicionar_conta(Contas.Conta_Corrente.nova_conta(t_c))
-
-t_c.realizar_transacao(t_c.contas[0], Transacoes.Deposito(valor=123))
-
-t_c.realizar_transacao(t_c.contas[0], Transacoes.Saque(valor=123))
-
-t_c.contas[0].historico.exibir_extrato()
-
-t_c.contas[0].exibir_saldo()
-
-t_c.realizar_transacao(t_c.contas[1], Transacoes.Deposito(valor=123))
-
-t_c.realizar_transacao(t_c.contas[1], Transacoes.Saque(valor=123))
-
-t_c.contas[1].historico.exibir_extrato()
-
-t_c.contas[1].exibir_saldo()
-
-t_c.listar_contas()
-
-"""
