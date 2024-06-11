@@ -6,7 +6,7 @@ class Main:
     
     @classmethod
     def Menu(self):
-        return("\nBem vindo! Selecione uma das opções abaixo:\n[1] Realizar operação\n[2] Abrir conta\n[3] Listar contas\n[4] Sair\nOperação desejada: ")
+        return("\nBem vindo! Selecione uma das opções abaixo:\n[1] Realizar operação\n[2] Abrir conta\n[3] Listar contas\n[4] Sair\nOpção desejada: ")
     
     @classmethod
     def MenuOperacao(self):
@@ -52,44 +52,73 @@ class Main:
                 
                 if escolha == 1: #Realizar operação
                     
-                    if cliente.contas: 
-                       
-                       
-                        #Criar sistema de verificação da conta selecionada
-                        
-                        
-                        operacao = int(input(Main.MenuOperacao()))
+                    if cliente.contas: #Caso o cliente tenha conta cadastrada
+ 
+                        operacao = int(input(Main.MenuOperacao())) #Exibindo as opções de operações 
                         
                         if operacao == 1: #Extrato
+                            
                             print("Selecione a conta que deseja conferir o extrato:")
+                            
                             cliente.listar_contas()
+                            
                             conta_extrato = int(input("Conta selecionada: "))
-                            cliente.contas[conta_extrato].historico.exibir_extrato()
+                            
+                            if conta_extrato not in range (0, len(cliente.contas)):
+                                print("Conta inexistente, tente novamente!")
+                                
+                            else:
+                                cliente.contas[conta_extrato].historico.exibir_extrato()
                         
                         elif operacao == 2: #Saldo
+                            
                             print("Selecione a conta que deseja conferir o saldo:")
+                            
                             cliente.listar_contas()
+                            
                             conta_saldo = int(input("Conta selecionada: "))
-                            cliente.contas[conta_saldo].exibir_saldo() 
+                            
+                            if conta_saldo not in range (0, len(cliente.contas)):
+                                print("Conta inexistente, tente novamente!")
+                                
+                            else:
+                                cliente.contas[conta_saldo].exibir_saldo() 
                              
                         
                         elif operacao == 3: #Deposito
                             
                             print("Selecione a conta que deseja realizar depósito:")
+                            
                             cliente.listar_contas()
+                            
                             conta_deposito = int(input("Conta selecionada: "))
-                            valor = int(input("Digite o valor a ser depositado: "))
-                            cliente.realizar_transacao(cliente.contas[conta_deposito], Transacoes.Deposito(valor))
+                            
+                            if conta_deposito not in range (0, len(cliente.contas)):
+                                print("Conta inexistente, tente novamente!")
+                                
+                            else:
+                                valor = int(input("Digite o valor a ser depositado: "))
+                                cliente.realizar_transacao(cliente.contas[conta_deposito], Transacoes.Deposito(valor))
                             
                         elif operacao == 4: #Saque
+                            
                             print("Selecione a conta que deseja realizar o saque:")
+                            
                             cliente.listar_contas()
+                            
                             conta_saque = int(input("Conta selecionada: "))
-                            valor = int(input("Digite o valor a ser sacado: "))
-                            cliente.realizar_transacao(cliente.contas[conta_saque], Transacoes.Saque(valor))
-                        else:
+                            
+                            if conta_saque not in range (0, len(cliente.contas)):
+                                print("Conta inexistente, tente novamente!")
+                                
+                            else:
+                                valor = int(input("Digite o valor a ser sacado: "))
+                                cliente.realizar_transacao(cliente.contas[conta_saque], Transacoes.Saque(valor))
+                        
+                        else: #Escolha fora das opções
                             print("Número de operação inválido! Tente novamente")
-                    else:
+                    
+                    else: #Cliente não tem conta cadastrada
                         print("Não existem contas para realizar operação!")
 
                 elif escolha == 2: #Abrir conta
@@ -108,14 +137,20 @@ class Main:
                         print("Opção inválida! Tente novamente.")
                         
                 elif escolha == 3: #Listar contas
+                    
                     cliente.listar_contas()
+                    
                 elif escolha == 4: #Sair
+                    
                     print("Encerrando o sistema...")
                     break
-                else:
+                
+                else: #Escolha fora das opções listadas
                     print("Escolha uma opção válida")
                     continue
         else:
             print("Encerrando o sistema...")
             
+            
+
 Main.Main()
